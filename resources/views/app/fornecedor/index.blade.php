@@ -11,38 +11,34 @@
 ternarios 
 
 */
-
-
+// para user o dd no .blade = @dd()
+// somente entrara no @for caso o @isset seja verdadeiro
+// o @ antes das "{{}}" avisa pro blade apenas imprimir o bloco
 @endphp
+
+
 @isset($fornecedores)
 
-Fornecedor1: {{ $fornecedores[2]['nome']}}
+@foreach ($fornecedores as $indice => $fornecedor )
+Interação atual: {{$loop->iteration}}   
+<br>
+Fornecedor: {{ $fornecedor['nome']}}
 
 <br>
-Status: {{ $fornecedores[0]['status']}}
+Status: {{ $fornecedor['status']}}
 <br>
-CNPJ: {{ $fornecedores[0]['cnpj']?? ''}}
+CNPJ: {{ $fornecedor['cnpj']?? ''}}
 <br>
-Telefone: {{ $fornecedores[0]['ddd']}} {{ $fornecedores[0]['telefone'] ?? ''}}
+Telefone: {{ $fornecedor['ddd']}} {{ $fornecedor['telefone'] ?? ''}}
 <br>
-@switch($fornecedores[0]['ddd']) 
-    @case('11')
-        São Paulo - SP
-        @break
+@if($loop->first)
+    Primeira iteração do loop
+@endif
+@if($loop->last)
+<hr>
+    Total de Registro: {{$loop->count}}
+@endif
 
-        @case('32')
-        Juiz De Fora - MG
-        @break
-
-        @case('85')
-        Fortaleza - CE
-        @break
-    @default
-    Estado não endentificado
-        
-@endswitch
-
-<!-- se a variavel testada não estiver definida (isset)
-    ou estiver nula ?? '' -> operador default -->
-
+<hr>
+@endforeach
 @endisset
