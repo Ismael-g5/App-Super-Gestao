@@ -12,45 +12,26 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'PrincipalController@index')->name('site.index');
-
-Route::get('/sobre-nos', 'SobreNosController@sobreNos')->name('site.sobrenos');
-
-Route::get('/contato', 'ContatoController@contato')->name('site.contato');
-
-Route::get('/login', function(){return 'Login';})->name('site.login');
-
-
-Route::prefix('/app')->group(function(){
-    Route::get('/cliente', 'ClienteController@cliente')->name('app.clientes');
-    Route::get('/fornecedores', 'FornecedoresController@index')->name('app.fornecedores');
-    Route::get('/produtos', 'ProdutosController@produtos')->name('app.produtos');
+/*
+Route::get('/', function () {
+    return 'Olá, seja bem vindo ao curso!';
 });
-
-Route::get('/rota1', function(){
-    echo "rota 1";
-})->name('site.rota1');
-
-Route::get('/rota2', function(){
-    echo "rota 2";
-})->name('site.rota2');
-
-
-
-
-
-//laravel 8^ -> Route::get('/' [\App\Http\Controller\NomeDoController::class, 'nome da função']);
-//  {nome do parametro ?}, o "?" torna o paramentro opcional
-/*Route::get('/contato/{nome}/{categoria_id}', function (string $xyz) {
-    echo 'estamos aqui:'.$xyz;
-})->where('categoria_id', '[0-9]+') -- define que a variavel categoria_id
-so recebera inteiros de 0 a 9
--> Route:prefix = define o prefixo de determinadas rotas
-Route::get('/contato/{nome}', function (string $xyz) {
-    echo 'estamos aqui:'.$xyz;
-});
-
-Route::redirect('rota de remetente', 'rota de destino');
 */
 
+Route::get('/', 'PrincipalController@principal')->name('site.index');
+Route::get('/sobre-nos', 'SobreNosController@sobreNos')->name('site.sobrenos');
+Route::get('/contato', 'ContatoController@contato')->name('site.contato');
+Route::post('/contato', 'ContatoController@contato')->name('site.contato');
+Route::get('/login', function(){return 'Login';})->name('site.login');
+
+Route::prefix('/app')->group(function() {
+    Route::get('/clientes', function(){return 'Clientes';})->name('app.clientes');
+    Route::get('/fornecedores', 'FornecedorController@index')->name('app.fornecedores');
+    Route::get('/produtos', function(){return 'produtos';})->name('app.produtos');
+});
+
+Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('site.teste');
+
+Route::fallback(function() {
+    echo 'A rota acessada não existe. <a href="'.route('site.index').'">clique aqui</a> para ir para página inicial';
+});

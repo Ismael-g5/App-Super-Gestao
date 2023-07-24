@@ -1,44 +1,45 @@
-<h3> Fornecedor</h3>
+<h3>Fornecedor</h3>
+
 @php
-    
     /*
-    if(isset($variavel)){} //  retorna se a variavel estiver definida
-     */
-    /*
-     if(empty($variavel)){} //  retorna true se a variavel estiver vazia
-     */
-/*
-ternarios 
-
-*/
-// para user o dd no .blade = @dd()
-// somente entrara no @for caso o @isset seja verdadeiro
-// o @ antes das "{{}}" avisa pro blade apenas imprimir o bloco
+    if(empty($variavel)) {} //retornar true se a variável estiver vazia
+    - ''
+    - 0
+    - 0.0
+    - '0'
+    - null
+    - false
+    - array()
+    - $var
+    */
 @endphp
-
 
 @isset($fornecedores)
 
-@foreach ($fornecedores as $indice => $fornecedor )
-Interação atual: {{$loop->iteration}}   
-<br>
-Fornecedor: {{ $fornecedor['nome']}}
+    @forelse($fornecedores as $indice => $fornecedor)
+        Iteração atual: {{ $loop->iteration }}
+        <br>
+        Fornecedor: {{ $fornecedor['nome'] }}
+        <br>
+        Status: {{ $fornecedor['status'] }}
+        <br>
+        CNPJ: {{ $fornecedor['cnpj'] ?? '' }}
+        <br>
+        Telefone: ({{ $fornecedor['ddd'] ?? '' }}) {{ $fornecedor['telefone'] ?? '' }}
+        <br>
+        @if($loop->first)
+            Primeira iteração no loop
 
-<br>
-Status: {{ $fornecedor['status']}}
-<br>
-CNPJ: {{ $fornecedor['cnpj']?? ''}}
-<br>
-Telefone: {{ $fornecedor['ddd']}} {{ $fornecedor['telefone'] ?? ''}}
-<br>
-@if($loop->first)
-    Primeira iteração do loop
-@endif
-@if($loop->last)
-<hr>
-    Total de Registro: {{$loop->count}}
-@endif
+            <br>
+            Total de registros: {{ $loop->count }}
+        @endif
 
-<hr>
-@endforeach
+        @if($loop->last)
+            Última iteração no loop
+        @endif
+        <hr>
+    @empty
+        Não existem fornecedores cadastrados!!!
+    @endforelse
 @endisset
+
