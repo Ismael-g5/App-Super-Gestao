@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFornecedorsTable extends Migration
+class AlterFornecedoresNovaColuna extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateFornecedorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fornecedors', function (Blueprint $table) {
-            $table->id();
-            $table->string('nome', 50);
-            $table->timestamps();
+        Schema::create('fornecedores', function (Blueprint $table){
+            $table->string('site',150)->after('nome'); //->after indica onde sera inserida a coluna, apos qual no caso
         });
     }
 
@@ -27,6 +25,6 @@ class CreateFornecedorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fornecedors');
+        //
     }
 }
