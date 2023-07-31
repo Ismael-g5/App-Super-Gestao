@@ -13,29 +13,32 @@ class AjusteProdutosFiliais extends Migration
      */
     public function up()
     {
-        Schema::create('filiais', function (Blueprint $table){
+        //criando a tabela filiais
+        Schema::create('filiais', function (Blueprint $table) {
             $table->id();
             $table->string('filial', 30);
             $table->timestamps();
         });
-        //create da tabela produtos filiais
-        Schema::create('produto_filiais', function (Blueprint $table){
+
+        //criando a tabela produto_filiais
+        Schema::create('produto_filiais', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('filial_id');
             $table->unsignedBigInteger('produto_id');
             $table->decimal('preco_venda', 8, 2);
             $table->integer('estoque_minimo');
             $table->integer('estoque_maximo');
-            $table->timestamps(); 
+            $table->timestamps();
 
-            // foreign key
+            //foreign key (constraints)
             $table->foreign('filial_id')->references('id')->on('filiais');
             $table->foreign('produto_id')->references('id')->on('produtos');
         });
-        //removendo colunas
-        Schema::table('produtos', function (Blueprint $table){
-                    $table->dropColumn('preco_venda', 'estoque_minimo','estoque_maximo');
-                });
+
+        //removendo colunas da tabela produtos
+        Schema::table('produtos', function (Blueprint $table) {
+            $table->dropColumn(['preco_venda', 'estoque_minimo', 'estoque_maximo']);
+        });
     }
 
     /**
@@ -45,15 +48,15 @@ class AjusteProdutosFiliais extends Migration
      */
     public function down()
     {
-          //removendo colunas
-          Schema::table('produtos', function (Blueprint $table){
-        $table->decimal('preco_venda', 8, 2);
-        $table->integer('estoque_minimo');
-        $table->integer('estoque_maximo');
-        $table->decimal('preco_venda', 8, 2);
+        //adicionar colunas da tabela produtos
+        Schema::table('produtos', function (Blueprint $table) {
+            $table->decimal('preco_venda', 8, 2);
+            $table->integer('estoque_minimo');
+            $table->integer('estoque_maximo');
         });
-        Schema::dropIfExists('produto_filiais');
-        Schema::dropIfExists('filiais');
 
+        Schema::dropIfExists('produto_filiais');
+
+        Schema::dropIfExists('filiais');
     }
 }

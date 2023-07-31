@@ -3,9 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+//fornecedors
+//fornecedores
 
 class Fornecedor extends Model
 {
-    protected $table = 'fornecedores'; // o protected $table informa qual o nome o Eloquent vai usar como sendo o da tabela, sobrescrevendo a regra do ORM
-    protected $fillable = ['nome', 'site', 'uf', 'email']; // informa para o ORM quais as tabelas podem ser passadas por array
+    //
+    use SoftDeletes;
+
+    protected $table = 'fornecedores';
+    protected $fillable = ['nome', 'site', 'uf', 'email'];
 }
