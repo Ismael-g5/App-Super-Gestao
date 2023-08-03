@@ -11,4 +11,3 @@
         @yield('conteudo')
     </body>
 </html>
-

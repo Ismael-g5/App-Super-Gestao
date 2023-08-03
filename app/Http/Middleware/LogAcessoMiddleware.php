@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\LogAcesso;
 use Closure;
+use App\LogAcesso;
+
 class LogAcessoMiddleware
 {
     /**
@@ -15,15 +16,18 @@ class LogAcessoMiddleware
      */
     public function handle($request, Closure $next)
     {
-        //remote_addr retorna o ip da maquina que fez a requisição, assim como getRequestUri retorna a rota buscada
+
         $ip = $request->server->get('REMOTE_ADDR');
         $rota = $request->getRequestUri();
+        LogAcesso::create(['log' => "IP $ip requisitou a rota $rota"]);
 
-        LogAcesso::create(['log'=>"Ip $ip requisitou a rota $rota"]);
-        return $next($request);
+        // return $next($request);
 
-       // $resposta = $next($request);
+        $resposta = $next($request);
 
-      // dd($resposta); retorna um dd de todo o html da pagina que é retornada pelo middleware
+        $resposta->setStatusCode(201, 'O status da resposta e o texto da resposta foram modificados!!!');
+
+        return $resposta;
+
     }
 }

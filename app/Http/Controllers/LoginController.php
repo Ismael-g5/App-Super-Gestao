@@ -2,66 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
+use App\User;
 
 class LoginController extends Controller
 {
-    public function index(Request $request)
-    {
-        $erro = '';
-         if($request->get('erro') == 1)
-         {
-            $erro = 'Usuário e ou senha inválidos!';
-         };
+    public function index(Request $request) {
 
-         if($request->get('erro') == 2)
-         {
-            $erro = 'Necessario realizar Logon para ter acesso a página!';
-         };
+        $erro = '';
+
+        if($request->get('erro') == 1) {
+            $erro = 'Usuário e ou senha não existe';
+        }
+
+        if($request->get('erro') == 2) {
+            $erro = 'Necessario realizar login para ter acesso a página';
+        }
 
         return view('site.login', ['titulo' => 'Login', 'erro' => $erro]);
     }
-    public function autenticar(Request $request)
-    {
+
+    public function autenticar(Request $request) {
+
         //regras de validação
-       $regras =
-       ['usuario' => 'email',
-        'senha' => 'required',
-    ];
+        $regras = [
+            'usuario' => 'email',
+            'senha' => 'required'
+        ];
 
-    $feedback = [
-        'usuario.email' => 'O campo usuário deve conter um email válido',
-      'senha.required' => 'O campo senha é obrigatório'
-    ];
-    $request->validate($regras, $feedback);
+        //as mensagens de feedback de validação
+        $feedback = [
+            'usuario.email' => 'O campo usuário (e-mail) é obrigatório',
+            'senha.required' => 'O campo senha é obrigatório'
+        ];
 
-    $email = $request->get('usuario');
-    $password = $request->get('senha');
+        //se não passar no validate
+        $request->validate($regras, $feedback);
 
-    echo "Usuário = $email | Senha = $password";
-    echo '<br>';
+        //recuperamos os parâmetros do formulário
+        $email = $request->get('usuario');
+        $password = $request->get('senha');
 
-    // vamos aproveitar o model users que ja veio por padrão no laravel
+        echo "Usuário: $email | Senha: $password";
+        echo "<br>";
 
-    $user = new User();
+        //iniciar o Model User
+        $user = new User();
 
-    $usuario = $user->where('email', $email)->where('password', $password)->get()->first(); // quando é comparado igualdade, não precisamos passar o paramentro ao meio
-        if(isset($usuario->name))
-        {
-           session_start();
-           $_SESSION['nome'] = $usuario->name;
-           $_SESSION['email'] = $usuario->email;
+        $usuario = $user->where('email', $email)
+                    ->where('password', $password)
+                    ->get()
+                    ->first();
+
+        if(isset($usuario->name)) {
+
+            session_start();
+            $_SESSION['nome'] = $usuario->name;
+            $_SESSION['email'] = $usuario->email;
 
             return redirect()->route('app.home');
-        }else{
-            return redirect()->route('site.login', ['erro'=> 1]);
+        } else {
+            return redirect()->route('site.login', ['erro' => 1]);
         }
+    }
 
-}
-public function sair()
-{
-    session_destroy();
-    return redirect()->route('site.index');
-}
+    public function sair() {
+        session_destroy();
+        return redirect()->route('site.index');
+    }
 }
