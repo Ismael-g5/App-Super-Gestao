@@ -18,7 +18,14 @@
         </div>
 
         <div class="informacao-pagina">
-            {{ $msg ?? '' }}
+
+            @if(Session::has('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+
+        @endif
+
+           </div>
             <div style="width: 30%; margin-left: auto; margin-right: auto;">
                 <form method="post" action="{{ route('app.fornecedor.adicionar') }}">
                     <input type="hidden" name="id" value="{{ $fornecedor->id ?? '' }}">

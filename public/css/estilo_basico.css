@@ -194,3 +194,65 @@ button:hover {
 .redes-sociais img {
     margin: 0px 15px 0px 15px;
 }
+/* CSS */
+/* Reset the default list styling */
+.pagination {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Style the individual page items */
+  .page-item {
+    margin: 0 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-link {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  /* Style the active page item */
+  .page-item.active .page-link {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+
+  /* Style the disabled page item */
+  .page-item.disabled .page-link {
+    color: #ccc;
+    pointer-events: none;
+  }
+
+  /* Style the navigation arrows */
+  .page-link[aria-hidden="true"] {
+    display: none;
+  }
+/* Estilos para a flash message de sucesso */
+.alert.alert-success {
+    background-color: #43dc35; /* Vermelho */
+    color: #fff; /* Branco */
+    padding: 10px;
+    margin: 10px auto; /* Centraliza horizontalmente */
+    border-radius: 4px;
+    width: 30%; /* Largura de 30% */
+}
+.mensagem-cadastro {
+    background-color: #28a745; /* Verde */
+    color: #fff; /* Branco */
+    padding: 10px;
+    margin: 10px auto; /* Centraliza horizontalmente */
+    border-radius: 4px;
+    width: 30%; /* Largura de 30% */
+}

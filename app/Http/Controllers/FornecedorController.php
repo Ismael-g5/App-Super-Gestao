@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Fornecedor;
+use Illuminate\Support\Facades\Session;
 
 class FornecedorController extends Controller
 {
@@ -17,14 +18,14 @@ class FornecedorController extends Controller
         ->where('site', 'like', '%'.$request->input('site').'%')
         ->where('uf', 'like', '%'.$request->input('uf').'%')
         ->where('email', 'like', '%'.$request->input('email').'%')
-        ->get();
+        ->paginate(2); // o paginate cria a paginação na exibição do conteudo, limitando a exibição por pagina
 
-        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores]);
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores,'request' => $request->all()]);
     }
 
     public function adicionar(Request $request) {
 
-        $msg = '';
+      //  $msg = '';
 
         //inclusão
         if($request->input('_token') != '' && $request->input('id') == '') {
@@ -53,7 +54,9 @@ class FornecedorController extends Controller
             //redirect
 
             //dados view
-            $msg = 'Cadastro realizado com sucesso';
+           // $msg = 'Cadastro realizado com sucesso';
+           Session::flash('success', 'Fornecedor cadastrado com sucesso!');
+
         }
 
         //edição
@@ -62,21 +65,32 @@ class FornecedorController extends Controller
             $update = $fornecedor->update($request->all());
 
             if($update) {
-                $msg = 'Atualização realizado com sucesso';
+               // $msg = 'Atualização realizado com sucesso';
+               Session::flash('success', 'Fornecedor editado com sucesso!');
             } else {
-                $msg = 'Erro ao tentar atualizar o registro';
+                //$msg = 'Erro ao tentar atualizar o registro';
+                Session::flash('warning', 'Falha ao editar Fornecedor!');
             }
 
-            return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id'), 'msg' => $msg]);
+        return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id')]);
         }
 
-        return view('app.fornecedor.adicionar', ['msg' => $msg]);
+    return view('app.fornecedor.adicionar');
     }
 
-    public function editar($id, $msg = '') {
+    public function editar($id) {
 
         $fornecedor = Fornecedor::find($id);
 
-        return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor, 'msg' => $msg]);
+    return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor]);
+    }
+    public function excluir($id)
+    {
+        Fornecedor::find($id)->delete();
+
+         // Adiciona a flash message à sessão
+    Session::flash('success', 'Fornecedor excluído com sucesso!');
+
+        return redirect()->route('app.fornecedor');
     }
 }
