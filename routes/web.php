@@ -43,13 +43,13 @@ Route::middleware('autenticacao:padrao,visitante,p3,p4')->prefix('/app')->group(
 
     //produtos
     Route::resource('produtos', ProdutoController::class)->names([
-        'index' => 'produto.listar',      // Nome da rota para a listagem de produtos
-        'create' => 'produto.criar',      // Nome da rota para a página de criação
-        'store' => 'produto.salvar',      // Nome da rota para salvar um novo produto
-        'show' => 'produto.mostrar',      // Nome da rota para exibir um produto específico
-        'edit' => 'produto.editar',       // Nome da rota para a página de edição
-        'update' => 'produto.atualizar',  // Nome da rota para atualizar um produto existente
-        'destroy' => 'produto.excluir',   // Nome da rota para excluir um produto
+        'index' => 'produto.index',      // Nome da rota para a listagem de produtos
+        'create' => 'produto.create',      // Nome da rota para a página de criação
+        'store' => 'produto.store',      // Nome da rota para salvar um novo produto
+        'show' => 'produto.show',      // Nome da rota para exibir um produto específico
+        'edit' => 'produto.edit',       // Nome da rota para a página de edição
+        'update' => 'produto.update',  // Nome da rota para atualizar um produto existente
+        'destroy' => 'produto.destroy',   // Nome da rota para excluir um produto
     ]);
 });
 
