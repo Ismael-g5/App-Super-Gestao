@@ -50,8 +50,15 @@ Route::middleware('autenticacao:padrao,visitante,p3,p4')->prefix('/app')->group(
         'edit' => 'produto.edit',       // Nome da rota para a página de edição
         'update' => 'produto.update',  // Nome da rota para atualizar um produto existente
         'destroy' => 'produto.destroy',   // Nome da rota para excluir um produto
+
+
+        //produtos detalhes
+        Route::resource('produto-detalhe', 'ProdutoDetalheController')
     ]);
 });
+
+
+
 
 Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('site.teste');
 
