@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Fornecedor;
-use Illuminate\Support\Facades\Session;
 
 class FornecedorController extends Controller
 {
@@ -15,18 +14,18 @@ class FornecedorController extends Controller
     public function listar(Request $request) {
 
         $fornecedores = Fornecedor::where('nome', 'like', '%'.$request->input('nome').'%')
-        ->where('site', 'like', '%'.$request->input('site').'%')
-        ->where('uf', 'like', '%'.$request->input('uf').'%')
-        ->where('email', 'like', '%'.$request->input('email').'%')
-        ->paginate(2); // o paginate cria a paginação na exibição do conteudo, limitando a exibição por pagina
+            ->where('site', 'like', '%'.$request->input('site').'%')
+            ->where('uf', 'like', '%'.$request->input('uf').'%')
+            ->where('email', 'like', '%'.$request->input('email').'%')
+            ->paginate(3);
 
-        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores,'request' => $request->all()]);
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all() ]);
     }
 
     public function adicionar(Request $request) {
 
-      //  $msg = '';
-
+        $msg = '';
+        
         //inclusão
         if($request->input('_token') != '' && $request->input('id') == '') {
             //validacao
@@ -38,7 +37,7 @@ class FornecedorController extends Controller
             ];
 
             $feedback = [
-                'required' => 'O campo :attribute deve ser preenchida',
+                'required' => 'O campo :attribute deve ser preenchido',
                 'nome.min' => 'O campo nome deve ter no mínimo 3 caracteres',
                 'nome.max' => 'O campo nome deve ter no máximo 40 caracteres',
                 'uf.min' => 'O campo uf deve ter no mínimo 2 caracteres',
@@ -54,9 +53,7 @@ class FornecedorController extends Controller
             //redirect
 
             //dados view
-           // $msg = 'Cadastro realizado com sucesso';
-           Session::flash('success', 'Fornecedor cadastrado com sucesso!');
-
+            $msg = 'Cadastro realizado com sucesso';
         }
 
         //edição
@@ -65,31 +62,27 @@ class FornecedorController extends Controller
             $update = $fornecedor->update($request->all());
 
             if($update) {
-               // $msg = 'Atualização realizado com sucesso';
-               Session::flash('success', 'Fornecedor editado com sucesso!');
+                $msg = 'Atualização realizada com sucesso';
             } else {
-                //$msg = 'Erro ao tentar atualizar o registro';
-                Session::flash('warning', 'Falha ao editar Fornecedor!');
+                $msg = 'Erro ao tentar atualizar o registro';
             }
 
-        return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id')]);
+            return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id'), 'msg' => $msg]);
         }
 
-    return view('app.fornecedor.adicionar');
+        return view('app.fornecedor.adicionar', ['msg' => $msg]);
     }
 
-    public function editar($id) {
-
+    public function editar($id, $msg = '') {
+        
         $fornecedor = Fornecedor::find($id);
 
-    return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor]);
+        return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor, 'msg' => $msg]);
     }
-    public function excluir($id)
-    {
-        Fornecedor::find($id)->delete();
 
-         // Adiciona a flash message à sessão
-    Session::flash('success', 'Fornecedor excluído com sucesso!');
+    public function excluir($id) {
+        Fornecedor::find($id)->delete();
+        //Fornecedor::find($id)->forceDelete();
 
         return redirect()->route('app.fornecedor');
     }

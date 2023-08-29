@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 /*
 Route::get('/', function () {
-    return 'Olá, seja bem vindo ao curso!';
+    return 'Olá, seja vem vindo ao curso!';
 });
 */
 
@@ -22,7 +22,7 @@ Route::get('/', 'PrincipalController@principal')->name('site.index')->middleware
 
 Route::get('/sobre-nos', 'SobreNosController@sobreNos')->name('site.sobrenos');
 Route::get('/contato', 'ContatoController@contato')->name('site.contato');
-
+    
 Route::post('/contato', 'ContatoController@salvar')->name('site.contato');
 
 Route::get('/login/{erro?}', 'LoginController@index')->name('site.login');
@@ -32,7 +32,7 @@ Route::middleware('autenticacao:padrao,visitante,p3,p4')->prefix('/app')->group(
     Route::get('/home', 'HomeController@index')->name('app.home');
     Route::get('/sair', 'LoginController@sair')->name('app.sair');
     Route::get('/cliente', 'ClienteController@index')->name('app.cliente');
-
+    
     Route::get('/fornecedor', 'FornecedorController@index')->name('app.fornecedor');
     Route::post('/fornecedor/listar', 'FornecedorController@listar')->name('app.fornecedor.listar');
     Route::get('/fornecedor/listar', 'FornecedorController@listar')->name('app.fornecedor.listar');
@@ -40,27 +40,15 @@ Route::middleware('autenticacao:padrao,visitante,p3,p4')->prefix('/app')->group(
     Route::post('/fornecedor/adicionar', 'FornecedorController@adicionar')->name('app.fornecedor.adicionar');
     Route::get('/fornecedor/editar/{id}/{msg?}', 'FornecedorController@editar')->name('app.fornecedor.editar');
     Route::get('/fornecedor/excluir/{id}', 'FornecedorController@excluir')->name('app.fornecedor.excluir');
-
+    
     //produtos
-    Route::resource('produtos', ProdutoController::class)->names([
-        'index' => 'produto.index',      // Nome da rota para a listagem de produtos
-        'create' => 'produto.create',      // Nome da rota para a página de criação
-        'store' => 'produto.store',      // Nome da rota para salvar um novo produto
-        'show' => 'produto.show',      // Nome da rota para exibir um produto específico
-        'edit' => 'produto.edit',       // Nome da rota para a página de edição
-        'update' => 'produto.update',  // Nome da rota para atualizar um produto existente
-        'destroy' => 'produto.destroy',   // Nome da rota para excluir um produto
+    Route::resource('produto', 'ProdutoController');
 
-
-        //produtos detalhes
-        Route::resource('produto-detalhe', 'ProdutoDetalheController')
-    ]);
+    //produtos detalhes
+    Route::resource('produto-detalhe', 'ProdutoDetalheController');
 });
 
-
-
-
-Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('site.teste');
+Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
 
 Route::fallback(function() {
     echo 'A rota acessada não existe. <a href="'.route('site.index').'">clique aqui</a> para ir para página inicial';

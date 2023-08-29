@@ -3,7 +3,7 @@
 @section('titulo', 'Fornecedor')
 
 @section('conteudo')
-
+    
     <div class="conteudo-pagina">
 
         <div class="titulo-pagina-2">
@@ -29,34 +29,42 @@
                             <th></th>
                             <th></th>
                         </tr>
-                    </thead>
+                    </head>
 
                     <tbody>
-                        @foreach ($fornecedores as $fornecedor)
+                        @foreach($fornecedores as $fornecedor)
                             <tr>
                                 <td>{{ $fornecedor->nome }}</td>
                                 <td>{{ $fornecedor->site }}</td>
                                 <td>{{ $fornecedor->uf }}</td>
                                 <td>{{ $fornecedor->email }}</td>
-                                <td><a href="{{route('app.fornecedor.excluir', $fornecedor->id)}}">Excluir</td>
+                                <td><a href="{{ route('app.fornecedor.excluir', $fornecedor->id) }}">Excluir</a></td>
                                 <td><a href="{{ route('app.fornecedor.editar', $fornecedor->id) }}">Editar</a></td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {{$fornecedores->appends($request)->links()}}
+
+                
+                {{ $fornecedores->appends($request)->links() }}
 
                 <!--
-                {{$fornecedores->count()}} -- total de registros por pagina
-                {{$fornecedores->total()}} -- Total de registros por consulta
-                {{$fornecedores->firstItem()}} -- numero de primeiro registro da pagina
-                {{$fornecedores->lastItem()}} -- numero do ultimo registro da pagina
-
+                <br>
+                {{ $fornecedores->count() }} - Total de registros por página
+                <br>
+                {{ $fornecedores->total() }} - Total de registros da consulta
+                <br>
+                {{ $fornecedores->firstItem() }} - Número do primeiro registro da página
+                <br>
+                {{ $fornecedores->lastItem() }} - Número do último registro da página
 
                 -->
+                <br>
+                Exibindo {{ $fornecedores->count() }} fornecedores de {{ $fornecedores->total() }} (de {{ $fornecedores->firstItem() }} a {{ $fornecedores->lastItem() }})
             </div>
         </div>
 
     </div>
 
 @endsection
+

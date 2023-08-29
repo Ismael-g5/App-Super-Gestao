@@ -3,7 +3,7 @@
 @section('titulo', 'Fornecedor')
 
 @section('conteudo')
-
+    
     <div class="conteudo-pagina">
 
         <div class="titulo-pagina-2">
@@ -17,15 +17,7 @@
             </ul>
         </div>
 
-
         <div class="informacao-pagina">
-
-            @if(Session::has('success'))
-            <div class="alert alert-success">
-                {{ Session::get('success') }}
-            </div>
-        @endif
-
             <div style="width: 30%; margin-left: auto; margin-right: auto;">
                 <form method="post" action="{{ route('app.fornecedor.listar') }}">
                     @csrf
@@ -34,10 +26,11 @@
                     <input type="text" name="uf" placeholder="UF" class="borda-preta">
                     <input type="text" name="email" placeholder="E-mail" class="borda-preta">
                     <button type="submit" class="borda-preta">Pesquisar</button>
-                </form>
+                <form>
             </div>
         </div>
 
     </div>
 
 @endsection
+
