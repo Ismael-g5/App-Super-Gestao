@@ -1,26 +1,25 @@
 @extends('site.layouts.basico')
 
-@section('titulo', $titulo)
+
 
 @section('conteudo')
     <div class="conteudo-pagina">
         <div class="titulo-pagina">
-            <h1>Login</h1>
+            <h1>Sign In</h1>
         </div>
 
         <div class="informacao-pagina">
             <div style="width:30%; margin-left: auto; margin-right: auto;">
-                <form action={{ route('site.login') }} method="post">
+                <form action={{ route('site.cadastro') }} method="post">
                     @csrf
-                    <input name="usuario" value="{{ old('usuario') }}" type="text" placeholder="Usuário" class="borda-preta">
-                    {{ $errors->has('usuario') ? $errors->first('usuario') : '' }}
+                    <input name="usuario" value="{{ $dadosUsuario['name'] }}" type="text" placeholder="Usuário" class="borda-preta">
+
+                    <input type="email" name="email" id="email" class="form-control" value="{{ $dadosUsuario['email'] }}" required>
 
                     <input name="senha" type="password" placeholder="Senha" class="borda-preta">
-                    {{ $errors->has('senha') ? $errors->first('senha') : '' }}
 
-                    <button type="submit" class="borda-preta">Acessar</button>
+                    <button type="submit" class="borda-preta">Registrar</button>
                 </form>
-                {{ isset($erro) && $erro != '' ? $erro : '' }}
 
             </div>
 

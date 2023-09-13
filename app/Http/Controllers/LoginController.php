@@ -7,10 +7,24 @@ use App\User;
 
 class LoginController extends Controller
 {
+    public function store(Request $request){
+
+        $dadosUsuario = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password'))
+        ]);
+
+        dd($dadosUsuario);
+        User::create($dadosUsuario);
+        return view('site.cadastro', ['dadosUsuario' => $dadosUsuario] );
+
+        return view('site.cadastro');
+    }
     public function index(Request $request) {
 
         $erro = '';
-        
+
         if($request->get('erro') == 1) {
             $erro = 'Usuário e ou senha não existe';
         }
@@ -20,10 +34,11 @@ class LoginController extends Controller
         }
 
         return view('site.login', ['titulo' => 'Login', 'erro' => $erro]);
+
     }
 
     public function autenticar(Request $request) {
-        
+
         //regras de validação
         $regras = [
             'usuario' => 'email',
@@ -52,7 +67,7 @@ class LoginController extends Controller
                     ->first();
 
         if(isset($usuario->name)) {
-            
+
             session_start();
             $_SESSION['nome'] = $usuario->name;
             $_SESSION['email'] = $usuario->email;
